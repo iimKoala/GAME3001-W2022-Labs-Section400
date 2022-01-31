@@ -25,6 +25,9 @@ void PlayScene::draw()
 void PlayScene::update()
 {
 	updateDisplayList();
+
+	CollisionManager::AABBCheck(m_pTarget, m_pSpaceShip);
+	Util::DrawRect(m_pTarget->getTransform()->position, m_pTarget->getWidth(), m_pTarget->getHeight());
 }
 
 void PlayScene::clean()
@@ -63,6 +66,9 @@ void PlayScene::start()
 	
 		addChild(m_pTarget);
 
+		m_pSpaceShip = new SpaceShip();
+		addChild(m_pSpaceShip);
+			
 	ImGuiWindowFrame::Instance().setGUIFunction(std::bind(&PlayScene::GUI_Function, this));
 }
 
