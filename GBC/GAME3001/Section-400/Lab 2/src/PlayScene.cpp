@@ -75,7 +75,7 @@ void PlayScene::GUI_Function() const
 	// See examples by uncommenting the following - also look at imgui_demo.cpp in the IMGUI filter
 	//ImGui::ShowDemoWindow();
 	
-	ImGui::Begin("Your Window Title Goes Here", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoMove);
+	ImGui::Begin("Lab 2 Debug Properties", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoMove);
 
 	if(ImGui::Button("My Button"))
 	{
@@ -84,13 +84,10 @@ void PlayScene::GUI_Function() const
 
 	ImGui::Separator();
 
-	static float float3[3] = { 0.0f, 1.0f, 1.5f };
-	if(ImGui::SliderFloat3("My Slider", float3, 0.0f, 2.0f))
+	static float position[2] = { m_pTarget->getTransform()->position.x,m_pTarget->getTransform()->position.y };
+	if(ImGui::SliderFloat3("Target Position", position, 0.0f, 800.0f))
 	{
-		std::cout << float3[0] << std::endl;
-		std::cout << float3[1] << std::endl;
-		std::cout << float3[2] << std::endl;
-		std::cout << "---------------------------\n";
+		m_pTarget->getTransform()->position = glm::vec2(position[0], position[1]);
 	}
 	
 	ImGui::End();
