@@ -135,6 +135,7 @@
     <ClCompile Include="..\include\IMGUI_SDL\imgui_sdl.cpp">
       <Filter>IMGUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\SpaceShip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\StartScene.h">
@@ -278,6 +279,7 @@
     <ClInclude Include="..\include\IMGUI_SDL\imgui_sdl.h">
       <Filter>IMGUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\SpaceShip.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">

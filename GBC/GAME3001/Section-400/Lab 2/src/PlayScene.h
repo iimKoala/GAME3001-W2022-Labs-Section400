@@ -3,7 +3,7 @@
 #define __PLAY_SCENE__
 
 #include "Scene.h"
-
+#include "Target.h"
 
 class PlayScene : public Scene
 {
@@ -24,6 +24,7 @@ private:
 	
 	glm::vec2 m_mousePosition;
 
+	Target* m_pTarget;
 	
 };
 

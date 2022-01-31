@@ -36,7 +36,6 @@ void PlayScene::handleEvents()
 {
 	EventManager::Instance().update();
 
-	
 
 
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_ESCAPE))

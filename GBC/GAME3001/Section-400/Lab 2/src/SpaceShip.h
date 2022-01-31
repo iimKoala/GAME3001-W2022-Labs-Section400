@@ -1,14 +1,15 @@
 #pragma once
-#ifndef __TARGET__
-#define __TARGET__
+#pragma once
+#ifndef __SPACE_SHIP__
+#define __SPACE_SHIP__
 
 #include "DisplayObject.h"
 
-class Target final : public DisplayObject
+class SpaceShip final : public DisplayObject
 {
 public:
-	Target();
-	~Target();
+	SpaceShip();
+	~SpaceShip();
 
 	// Inherited via GameObject
 	virtual void draw() override;
@@ -16,10 +17,8 @@ public:
 	virtual void clean() override;
 
 private:
-	void m_move();
-	void m_checkBounds();
-	void m_reset();
+	
 };
 
 
-#endif /* defined (__TARGET__) */
+#endif /* defined (__SPACE_SHIP__) */
