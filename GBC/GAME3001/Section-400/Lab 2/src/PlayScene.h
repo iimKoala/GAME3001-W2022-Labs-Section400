@@ -24,6 +24,8 @@ private:
 	
 	glm::vec2 m_mousePosition;
 
+	SpaceShip* m_pSpaceShip;
+
 	Target* m_pTarget;
 	
 };

@@ -1,6 +1,6 @@
 #include "SpaceShip.h"
 #include "TextureManager.h"
-
+#include "Util.h"
 
 SpaceShip::SpaceShip()
 {
@@ -11,9 +11,14 @@ SpaceShip::SpaceShip()
 	setHeight(size.y);
 	getTransform()->position = glm::vec2(100.0f, 100.0f);
 	getRigidBody()->velocity = glm::vec2(0, 0);
+	getRigidBody()->acceleration = glm::vec2(0, 0);
 	getRigidBody()->isColliding = false;
 
-	setType(SPACE_SHIP);
+	m_maxSpeed = 5.0f;
+	m_turnRate = 5.0f;
+	m_accelerationRate = 2.0f;
+
+	setType(AGENT);
 }
 
 SpaceShip::~SpaceShip()
@@ -31,23 +36,56 @@ void SpaceShip::draw()
 
 void SpaceShip::update()
 {
-	m_move();
-	m_checkBounds();
+
 }
 
 void SpaceShip::clean()
 {
 }
 
+
+float SpaceShip::getMaxSpeed() const {
+	return m_maxSpeed;
+}
+
+float SpaceShip::getTurnRate() const
+{
+	return m_turnRate;
+}
+float SpaceShip::getAccelerationRate() const 
+{
+	return m_accelerationRate;
+}
+glm::vec2 SpaceShip::getDesiredVelocity() const
+{
+	return m_desiredVelocity;
+}
+void SpaceShip::setMaxSpeed(float speed)
+{
+	m_maxSpeed = speed;
+}
+void SpaceShip::setTurnRate(float angle)
+{
+	m_turnRate = angle;
+}
+void SpaceShip::setAccelerationRate(float rate)
+{
+	m_accelerationRate = rate;
+}
+void SpaceShip::setDesiredVelocity(glm::vec2 target_position)
+{
+	m_desiredVelocity = Util::normalize( target_position - getTransform()->position);
+}
+void SpaceShip::Seek()
+{
+
+}
+void SpaceShip::LookWhereYoureGoing()
+{
+
+
+}
 void SpaceShip::m_move()
 {
-	getTransform()->position = getTransform()->position + getRigidBody()->velocity * 5.0f;
-}
 
-void SpaceShip::m_checkBounds()
-{
-}
-
-void SpaceShip::m_reset()
-{
 }
