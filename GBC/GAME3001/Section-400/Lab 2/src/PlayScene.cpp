@@ -71,8 +71,7 @@ void PlayScene::start()
 		m_pSpaceShip = new SpaceShip();
 		m_pSpaceShip->setCurrentHeading(0.0); 
 		m_pSpaceShip->setTargetPosition(m_pTarget->getTransform()->position);
-		m_pSpaceShip->getRigidBody()->velocity = m_pSpaceShip-> getCurrentDirection() * m_pSpaceShip->getMaxSpeed();
-		m_pSpaceShip->getRigidBody()->acceleration = m_pSpaceShip->getCurrentDirection() * m_pSpaceShip->getAccelerate();
+		m_pSpaceShip->getRigidBody()->acceleration = m_pSpaceShip->getCurrentDirection() * m_pSpaceShip->getAccelerationRate();
 		m_pSpaceShip->setEnableed(false);
 		addChild(m_pSpaceShip);
 			
@@ -115,7 +114,7 @@ void PlayScene::GUI_Function() const
 		if (ImGui::SliderFloat("Max Speed", &speed, 0.0f, 100.0f))
 		{
 			m_pSpaceShip->setMaxSpeed(speed);
-			m_pSpaceShip->getRigidBody()->velocity = m_pSpaceShip->getCurrentDirection() * m_pSpaceShip->getMaxSpeed();
+		
 		}
 		static float acceleration = m_pSpaceShip->getAccelerationRate();
 		if (ImGui::SliderFloat("Acceleration Rate", &acceleration, 0.0f, 50.0f))
@@ -128,6 +127,17 @@ void PlayScene::GUI_Function() const
 		if (ImGui::SliderFloat("Turn Rate", &turn_rate, 0.0f, 50.0f))
 		{
 			m_pSpaceShip->setTurnRate(turn_rate);
+			m_pSpaceShip->getRigidBody()->acceleration = m_pSpaceShip->getCurrentDirection() * m_pSpaceShip->getAccelerationRate();
+		}
+		if (ImGui::Button("Reset"))
+		{
+		
+			
+			m_pSpaceShip->getTransform()->position = glm::vec2(100.0f, 400.0f);
+			m_pTarget->getTransform()->position = glm::vec2(500.0f, 100.0f);
+			m_pSpaceShip->setCurrentHeading(0.0);
+			m_pSpaceShip->setTargetPosition(m_pTarget->getTransform()->position);
+			m_pSpaceShip->getRigidBody()->velocity = m_pSpaceShip->getCurrentDirection();
 			m_pSpaceShip->getRigidBody()->acceleration = m_pSpaceShip->getCurrentDirection() * m_pSpaceShip->getAccelerationRate();
 		}
 

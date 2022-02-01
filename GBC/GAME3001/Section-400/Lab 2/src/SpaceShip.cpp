@@ -16,9 +16,9 @@ SpaceShip::SpaceShip()
 	getRigidBody()->acceleration = glm::vec2(0, 0);
 	getRigidBody()->isColliding = false;
 
-	m_maxSpeed = 5.0f;
+	m_maxSpeed = 20.0f;
 	m_turnRate = 5.0f;
-	m_accelerationRate = 2.0f;
+	m_accelerationRate = 4.0f;
 
 	setType(AGENT);
 }
@@ -80,14 +80,16 @@ void SpaceShip::setDesiredVelocity(glm::vec2 target_position)
 }
 void SpaceShip::Seek()
 {
-	auto target_direction = getTargetPosition() = getTransform()->position;
+	setDesiredVelocity(getTargetPosition());
 
-	target_direction = Util::normalize(target_direction) = getCurrentDirection();
+	
 
-	setCurrentDirection(target_direction);
+	const glm::vec2 steering_direction = getDesiredVelocity() - getCurrentDirection();
 
-	/*getRigidBody()->velocity = getCurrentDirection() * getMaxSpeed();
-	getRigidBody()->acceleration = getCurrentDirection() * getAccelerationRate();*/
+	setCurrentDirection(steering_direction);
+
+	
+	getRigidBody()->acceleration = getCurrentDirection() * getAccelerationRate();
 
 
 }
@@ -127,5 +129,7 @@ void SpaceShip::m_move()
 
 
 getRigidBody()->velocity += getRigidBody()->acceleration;
+
+getRigidBody()->velocity = Util::clamp(getRigidBody()->velocity, getMaxSpeed());
 
 }
