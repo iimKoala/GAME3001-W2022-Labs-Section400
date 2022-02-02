@@ -21,6 +21,17 @@ PlayScene::~PlayScene()
 void PlayScene::draw()
 {
 	drawDisplayList();
+
+	Util::DrawCircle(m_pTarget->getTransform()->position, m_pTarget->getWidth() * 0.5f);
+
+
+	if (m_pSpaceShip->isEnabled())
+	{
+		Util::DrawCircle(m_pSpaceShip->getTransform()->position, Util::max(m_pSpaceShip->getWidth() * 0.5f , m_pSpaceShip->getHeight()*0.5f));
+	}
+
+	
+
 	SDL_SetRenderDrawColor(Renderer::Instance().getRenderer(), 255, 255, 255, 255);
 }
 
@@ -88,10 +99,15 @@ void PlayScene::GUI_Function() const
 	
 	ImGui::Begin("Lab 2 Debug Properties", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoMove);
 
-	if(ImGui::Button("My Button"))
+	ImGui::Separator();
+
+	static bool toggleDebug = m_pSpaceShip->isEnabled();
+	if (ImGui::Checkbox("toggle Debug", &toggleDebug))
 	{
-		std::cout << "My Button Pressed" << std::endl;
+		m_pSpaceShip->setEnabled(toggleDebug);
 	}
+
+
 
 	ImGui::Separator();
 
@@ -137,6 +153,9 @@ void PlayScene::GUI_Function() const
 			m_pTarget->getTransform()->position = glm::vec2(500.0f, 100.0f);
 			m_pSpaceShip->setCurrentHeading(0.0);
 			m_pSpaceShip->setTargetPosition(m_pTarget->getTransform()->position);
+			m_pSpaceShip->getRigidBody()->velocity = glm::vec2(0, 0);
+			
+			
 			m_pSpaceShip->getRigidBody()->velocity = m_pSpaceShip->getCurrentDirection();
 			m_pSpaceShip->getRigidBody()->acceleration = m_pSpaceShip->getCurrentDirection() * m_pSpaceShip->getAccelerationRate();
 		}
