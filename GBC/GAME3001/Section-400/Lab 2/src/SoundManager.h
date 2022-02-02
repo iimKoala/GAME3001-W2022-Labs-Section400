@@ -19,7 +19,6 @@ public:
 		static SoundManager instance; // Magic statics.
 		return instance;
 	}
-
 	void allocateChannels(const int channels) const;
 	bool load(const std::string& file_name, const std::string& id, SoundType type);
 	void unload(const std::string& id, SoundType type);

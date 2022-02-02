@@ -24,7 +24,6 @@ Player::Player(): m_currentAnimationState(PLAYER_IDLE_RIGHT)
 
 	m_buildAnimations();
 }
-
 Player::~Player()
 = default;
 

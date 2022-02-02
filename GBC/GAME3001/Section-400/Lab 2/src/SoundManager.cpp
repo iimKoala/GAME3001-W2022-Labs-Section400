@@ -41,7 +41,6 @@ bool SoundManager::load(const std::string & file_name, const std::string & id, c
 	}
 	return false;
 }
-
 void SoundManager::unload(const std::string & id, const SoundType type)
 {
 	if (type == SOUND_MUSIC && m_music.find(id) != m_music.end())
