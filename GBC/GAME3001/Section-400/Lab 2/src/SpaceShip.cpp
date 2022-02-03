@@ -108,6 +108,9 @@ void SpaceShip::LookWhereYoureGoing(const glm::vec2 target_direction)
 		else if (target_rotation < 0.0f)
 			setCurrentHeading(getCurrentHeading() - getTurnRate());
 	}
+	
+
+	
 }
 void SpaceShip::m_move()
 {

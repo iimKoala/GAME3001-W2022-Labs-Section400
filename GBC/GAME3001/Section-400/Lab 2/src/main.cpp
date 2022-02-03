@@ -27,6 +27,8 @@ int main(int argc, char* args[])
 		TheGame::Instance().update();
 		TheGame::Instance().render();
 
+
+
 		frameTime = SDL_GetTicks() - frameStart;
 		if (frameTime < DELAY_TIME)
 		{
