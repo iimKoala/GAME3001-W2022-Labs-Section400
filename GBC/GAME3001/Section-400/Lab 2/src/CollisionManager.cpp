@@ -1,7 +1,8 @@
 #include "CollisionManager.h"
 #include "Util.h"
 #include <algorithm>
-
+#include "GameObject.h"
+#include "SpaceShip.h"
 
 
 int CollisionManager::squaredDistance(const glm::vec2 p1, const glm::vec2 p2)
@@ -91,7 +92,7 @@ bool CollisionManager::AABBCheck(GameObject* object1, GameObject* object2)
 
 			switch (object2->getType()) {
 			
-			case SPACE_SHIP:
+			case PERSON:
 				std::cout << "Collision with Space Ship!" << std::endl;
 				SoundManager::Instance().playSound("yay", 0);
 				break;
@@ -309,7 +310,7 @@ bool CollisionManager::circleAABBCheck(GameObject* object1, GameObject* object2)
 
 			switch (object2->getType()) {
 			
-			case SPACE_SHIP:
+			case PERSON:
 			{
 				SoundManager::Instance().playSound("thunder", 0);
 				auto velocityX = object1->getRigidBody()->velocity.x;

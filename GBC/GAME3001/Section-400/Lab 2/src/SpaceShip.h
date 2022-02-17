@@ -1,15 +1,15 @@
 #pragma once
 #pragma once
-#ifndef __SPACE_SHIP__
-#define __SPACE_SHIP__
+#ifndef __Person__
+#define __Person__
 
 #include "Agent.h"
 
-class SpaceShip final : public Agent
+class Person final : public Agent
 {
 public:
-	SpaceShip();
-	~SpaceShip();
+	Person();
+	~Person();
 
 	// Inherited via GameObject
 	virtual void draw() override;
@@ -40,4 +40,4 @@ private:
 };
 
 
-#endif /* defined (__SPACE_SHIP__) */
+#endif /* defined (__Person__) */

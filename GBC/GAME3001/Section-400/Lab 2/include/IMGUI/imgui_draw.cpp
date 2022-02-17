@@ -2905,7 +2905,7 @@ const ImWchar*  ImFontAtlas::GetGlyphRangesJapanese()
 {
     // 2999 ideograms code points for Japanese
     // - 2136 Joyo (meaning "for regular use" or "for common use") Kanji code points
-    // - 863 Jinmeiyo (meaning "for personal name") Kanji code points
+    // - 863 Jinmeiyo (meaning "for Personal name") Kanji code points
     // - Sourced from the character information database of the Information-technology Promotion Agency, Japan
     //   - https://mojikiban.ipa.go.jp/mji/
     //   - Available under the terms of the Creative Commons Attribution-ShareAlike 2.1 Japan (CC BY-SA 2.1 JP).

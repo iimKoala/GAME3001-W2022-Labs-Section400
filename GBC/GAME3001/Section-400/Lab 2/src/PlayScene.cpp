@@ -29,9 +29,9 @@ void PlayScene::draw()
 		Util::DrawCircle(m_pTarget->getTransform()->position, m_pTarget->getWidth() * 0.5f);
 
 
-	if (m_pSpaceShip->isEnabled())
+	if (m_p_Person->isEnabled())
 	{
-		Util::DrawCircle(m_pSpaceShip->getTransform()->position, Util::max(m_pSpaceShip->getWidth() * 0.5f , m_pSpaceShip->getHeight()*0.5f));
+		Util::DrawCircle(m_p_Person->getTransform()->position, Util::max(m_p_Person->getWidth() * 0.5f , m_p_Person->getHeight()*0.5f));
 	}
 	}
 
@@ -42,7 +42,7 @@ void PlayScene::update()
 {
 	updateDisplayList();
 
-	CollisionManager::squaredRadiusCheck(m_pSpaceShip, m_pTarget);
+	CollisionManager::squaredRadiusCheck(m_p_Person, m_pTarget);
 }
 
 void PlayScene::clean()
@@ -82,12 +82,12 @@ void PlayScene::start()
 	
 		addChild(m_pTarget);
 
-		m_pSpaceShip = new SpaceShip();
-		m_pSpaceShip->setCurrentHeading(0.0); 
-		m_pSpaceShip->setTargetPosition(m_pTarget->getTransform()->position);
-		m_pSpaceShip->getRigidBody()->acceleration = m_pSpaceShip->getCurrentDirection() * m_pSpaceShip->getAccelerationRate();
-		m_pSpaceShip->setEnableed(false);
-		addChild(m_pSpaceShip);
+		m_p_Person = new Person();
+		m_p_Person->setCurrentHeading(0.0); 
+		m_p_Person->setTargetPosition(m_pTarget->getTransform()->position);
+		m_p_Person->getRigidBody()->acceleration = m_p_Person->getCurrentDirection() * m_p_Person->getAccelerationRate();
+		m_p_Person->setEnabled(false);
+		addChild(m_p_Person);
 			
 	ImGuiWindowFrame::Instance().setGUIFunction(std::bind(&PlayScene::GUI_Function, this));
 }
@@ -104,7 +104,7 @@ void PlayScene::GUI_Function()
 
 	ImGui::Separator();
 
-	static bool toggleDebug = m_pSpaceShip->isEnabled();
+	static bool toggleDebug = m_p_Person->isEnabled();
 	if (ImGui::Checkbox("toggle Debug", &toggleDebug))
 	{
 		m_bDebugView = toggleDebug;
@@ -118,49 +118,49 @@ void PlayScene::GUI_Function()
 	if(ImGui::SliderFloat3("Target Position", position, 0.0f, 800.0f))
 	{
 		m_pTarget->getTransform()->position = glm::vec2(position[0], position[1]);
-		m_pSpaceShip->setTargetPosition(m_pTarget->getTransform()->position);
+		m_p_Person->setTargetPosition(m_pTarget->getTransform()->position);
 	}
 	
 	ImGui::Separator();
 
-	static bool toggleSeek = m_pSpaceShip->isEnabled();
+	static bool toggleSeek = m_p_Person->isEnabled();
 		if (ImGui::Checkbox("toggle Seek", &toggleSeek)) 
 		{
-			m_pSpaceShip->setEnabled(toggleSeek);
+			m_p_Person->setEnabled(toggleSeek);
 	}
 
-		static float speed = m_pSpaceShip->getMaxSpeed();
+		static float speed = m_p_Person->getMaxSpeed();
 		if (ImGui::SliderFloat("Max Speed", &speed, 0.0f, 100.0f))
 		{
-			m_pSpaceShip->setMaxSpeed(speed);
+			m_p_Person->setMaxSpeed(speed);
 		
 		}
-		static float acceleration = m_pSpaceShip->getAccelerationRate();
+		static float acceleration = m_p_Person->getAccelerationRate();
 		if (ImGui::SliderFloat("Acceleration Rate", &acceleration, 0.0f, 50.0f))
 		{
-			m_pSpaceShip->setAccelerationRate(acceleration);
-			m_pSpaceShip->getRigidBody()->acceleration = m_pSpaceShip->getCurrentDirection() * m_pSpaceShip->getAccelerationRate();
+			m_p_Person->setAccelerationRate(acceleration);
+			m_p_Person->getRigidBody()->acceleration = m_p_Person->getCurrentDirection() * m_p_Person->getAccelerationRate();
 		}
 
-		static float turn_rate = m_pSpaceShip->getTurnRate();
+		static float turn_rate = m_p_Person->getTurnRate();
 		if (ImGui::SliderFloat("Turn Rate", &turn_rate, 0.0f, 50.0f))
 		{
-			m_pSpaceShip->setTurnRate(turn_rate);
-			m_pSpaceShip->getRigidBody()->acceleration = m_pSpaceShip->getCurrentDirection() * m_pSpaceShip->getAccelerationRate();
+			m_p_Person->setTurnRate(turn_rate);
+			m_p_Person->getRigidBody()->acceleration = m_p_Person->getCurrentDirection() * m_p_Person->getAccelerationRate();
 		}
 		if (ImGui::Button("Reset"))
 		{
 		
 			
-			m_pSpaceShip->getTransform()->position = glm::vec2(100.0f, 400.0f);
+			m_p_Person->getTransform()->position = glm::vec2(100.0f, 400.0f);
 			m_pTarget->getTransform()->position = glm::vec2(500.0f, 100.0f);
-			m_pSpaceShip->setCurrentHeading(0.0);
-			m_pSpaceShip->setTargetPosition(m_pTarget->getTransform()->position);
-			m_pSpaceShip->getRigidBody()->velocity = glm::vec2(0, 0);
+			m_p_Person->setCurrentHeading(0.0);
+			m_p_Person->setTargetPosition(m_pTarget->getTransform()->position);
+			m_p_Person->getRigidBody()->velocity = glm::vec2(0, 0);
 			
 			
-			m_pSpaceShip->getRigidBody()->velocity = m_pSpaceShip->getCurrentDirection();
-			m_pSpaceShip->getRigidBody()->acceleration = m_pSpaceShip->getCurrentDirection() * m_pSpaceShip->getAccelerationRate();
+			m_p_Person->getRigidBody()->velocity = m_p_Person->getCurrentDirection();
+			m_p_Person->getRigidBody()->acceleration = m_p_Person->getCurrentDirection() * m_p_Person->getAccelerationRate();
 		}
 
 	ImGui::End();

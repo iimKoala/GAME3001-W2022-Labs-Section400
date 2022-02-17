@@ -4,6 +4,7 @@
 
 #include "Scene.h"
 #include "Target.h"
+#include "SpaceShip.h"
 
 class PlayScene : public Scene
 {
@@ -24,7 +25,7 @@ private:
 	
 	glm::vec2 m_mousePosition;
 
-	SpaceShip* m_pSpaceShip;
+	Person* m_p_Person;
 
 	Target* m_pTarget;
 

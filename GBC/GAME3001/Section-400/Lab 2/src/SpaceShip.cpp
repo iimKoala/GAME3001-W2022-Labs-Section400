@@ -1,14 +1,16 @@
 #include "SpaceShip.h"
+
+#include "SpaceShip.h"
 #include "TextureManager.h"
 #include "Util.h"
 #include "Game.h"
 #include "GameObject.h"
 #include "Agent.h"
-SpaceShip::SpaceShip()
+Person::Person()
 {
-	TextureManager::Instance().load("../Assets/textures/ncl.png", "space_ship");
+	TextureManager::Instance().load("../Assets/textures/AISprite.png", "Person");
 
-	const auto size = TextureManager::Instance().getTextureSize("space_ship");
+	const auto size = TextureManager::Instance().getTextureSize("Person");
 	setWidth(size.x);
 	setHeight(size.y);
 	getTransform()->position = glm::vec2(100.0f, 100.0f);
@@ -23,62 +25,62 @@ SpaceShip::SpaceShip()
 	setType(AGENT);
 }
 
-SpaceShip::~SpaceShip()
+Person::~Person()
 = default;
 
-void SpaceShip::draw()
+void Person::draw()
 {
 	// alias for x and y
 	const auto x = getTransform()->position.x;
 	const auto y = getTransform()->position.y;
 
 	// draw the target
-	TextureManager::Instance().draw("space_ship", x, y, getCurrentHeading(), 255, true);
+	TextureManager::Instance().draw("Person", x, y, getCurrentHeading(), 255, true);
 }
 
-void SpaceShip::update()
+void Person::update()
 {
 	m_move();
 }
 
-void SpaceShip::clean()
+void Person::clean()
 {
 }
 
 
-float SpaceShip::getMaxSpeed() const {
+float Person::getMaxSpeed() const {
 	return m_maxSpeed;
 }
 
-float SpaceShip::getTurnRate() const
+float Person::getTurnRate() const
 {
 	return m_turnRate;
 }
-float SpaceShip::getAccelerationRate() const 
+float Person::getAccelerationRate() const 
 {
 	return m_accelerationRate;
 }
-glm::vec2 SpaceShip::getDesiredVelocity() const
+glm::vec2 Person::getDesiredVelocity() const
 {
 	return m_desiredVelocity;
 }
-void SpaceShip::setMaxSpeed(float speed)
+void Person::setMaxSpeed(float speed)
 {
 	m_maxSpeed = speed;
 }
-void SpaceShip::setTurnRate(float angle)
+void Person::setTurnRate(float angle)
 {
 	m_turnRate = angle;
 }
-void SpaceShip::setAccelerationRate(float rate)
+void Person::setAccelerationRate(float rate)
 {
 	m_accelerationRate = rate;
 }
-void SpaceShip::setDesiredVelocity(glm::vec2 target_position)
+void Person::setDesiredVelocity(glm::vec2 target_position)
 {
 	m_desiredVelocity = Util::normalize( target_position - getTransform()->position);
 }
-void SpaceShip::Seek()
+void Person::Seek()
 {
 	setDesiredVelocity(getTargetPosition());
 
@@ -93,7 +95,7 @@ void SpaceShip::Seek()
 
 
 }
-void SpaceShip::LookWhereYoureGoing(const glm::vec2 target_direction)
+void Person::LookWhereYoureGoing(const glm::vec2 target_direction)
 {
 	float target_rotation = Util::signedAngle(getCurrentDirection(), target_direction); 
 
@@ -112,7 +114,7 @@ void SpaceShip::LookWhereYoureGoing(const glm::vec2 target_direction)
 
 	
 }
-void SpaceShip::m_move()
+void Person::m_move()
 {
 	Seek();
 
