@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "Target.h"
 #include "SpaceShip.h"
+#include "Tile.h"
 
 class PlayScene : public Scene
 {
@@ -30,6 +31,8 @@ private:
 	SpaceShip* m_pSpaceShip;
 
 
+
+	Tile* m_pTile;
 	// Debug bool
 	bool m_bDebugView;
 
