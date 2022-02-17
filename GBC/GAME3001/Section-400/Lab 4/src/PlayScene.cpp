@@ -20,22 +20,6 @@ void PlayScene::draw()
 {
 	drawDisplayList();
 
-	if(m_bDebugView)
-	{
-		//Util::DrawRect(m_pTarget->getTransform()->position - glm::vec2(m_pTarget->getWidth() * 0.5f, m_pTarget->getHeight() * 0.5f), m_pTarget->getWidth(), m_pTarget->getHeight());
-		Util::DrawCircle(m_pTarget->getTransform()->position, m_pTarget->getWidth() * 0.5f);
-
-		
-		if (m_pSpaceShip->isEnabled())
-		{
-			//Util::DrawCircle(m_pSpaceShip->getTransform()->position, Util::max(m_pSpaceShip->getWidth() * 0.5f, m_pSpaceShip->getHeight() * 0.5f));
-			Util::DrawRect(m_pSpaceShip->getTransform()->position - glm::vec2(m_pSpaceShip->getWidth() * 0.5f, m_pSpaceShip->getHeight() * 0.5f), m_pSpaceShip->getWidth(), m_pSpaceShip->getHeight());
-			Util::DrawLine(m_pSpaceShip->getTransform()->position, m_pSpaceShip->getLeftLOSEndPoint(), m_pSpaceShip->getLineColor(0));
-			Util::DrawLine(m_pSpaceShip->getTransform()->position, m_pSpaceShip->getMiddleLOSEndPoint(), m_pSpaceShip->getLineColor(1));
-			Util::DrawLine(m_pSpaceShip->getTransform()->position, m_pSpaceShip->getRightLOSEndPoint(), m_pSpaceShip->getLineColor(2));
-		}
-
-	}
 	
 	SDL_SetRenderDrawColor(Renderer::Instance().getRenderer(), 255, 255, 255, 255);
 }
@@ -44,14 +28,6 @@ void PlayScene::update()
 {
 	updateDisplayList();
 
-	if(m_pSpaceShip->isEnabled())
-	{
-		//CollisionManager::squaredRadiusCheck(m_pSpaceShip, m_pTarget);
-		CollisionManager::circleAABBCheck(m_pTarget, m_pSpaceShip);
-		CollisionManager::AABBCheck(m_pObstacle, m_pSpaceShip);
-		doWhiskerCollision();
-		CollisionManager::rotateAABB(m_pSpaceShip, m_pSpaceShip->getCurrentHeading());
-	}
 }
 
 void PlayScene::clean()
@@ -89,15 +65,8 @@ void PlayScene::start()
 	addChild(m_pTarget);
 
 	m_pSpaceShip = new SpaceShip();
-	m_pSpaceShip->setCurrentHeading(0.0);
-	m_pSpaceShip->setTargetPosition(m_pTarget->getTransform()->position);
-	m_pSpaceShip->getRigidBody()->acceleration = m_pSpaceShip->getCurrentDirection() * m_pSpaceShip->getAccelerationRate();
-	m_pSpaceShip->setEnabled(false);
-	m_pSpaceShip->setWhiskerAngle(45.0f);
 	addChild(m_pSpaceShip);
-
-	m_pObstacle = new Obstacle();
-	addChild(m_pObstacle);
+	
 
 	SoundManager::Instance().load("../Assets/audio/yay.ogg", "yay", SOUND_SFX);
 	SoundManager::Instance().load("../Assets/audio/thunder.ogg", "boom", SOUND_SFX);
@@ -113,7 +82,7 @@ void PlayScene::GUI_Function()
 	// See examples by uncommenting the following - also look at imgui_demo.cpp in the IMGUI filter
 	//ImGui::ShowDemoWindow();
 	
-	ImGui::Begin("Lab 3 Debug Properties", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoMove);
+	ImGui::Begin("Lab 4 Debug Properties", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoMove);
 
 	ImGui::Separator();
 
@@ -130,105 +99,26 @@ void PlayScene::GUI_Function()
 	}
 	
 	ImGui::Separator();
+	// spaceship properties
+
+static float start_position[2] = { m_pSpaceShip->getTransform()->position.x, m_pSpaceShip->getTransform()->position.y};
+	if(ImGui::SliderFloat2("Target Position", start_position, 0.0f, 800.0f))
+	{
+		m_pTarget->getTransform()->position = glm::vec2(start_position[0], start_position[1]);
+		
+	}
 
 	// target properties
 	
-	static float position[2] = { m_pTarget->getTransform()->position.x, m_pTarget->getTransform()->position.y};
-	if(ImGui::SliderFloat2("Target Position", position, 0.0f, 800.0f))
+	static float goal_position[2] = { m_pTarget->getTransform()->position.x, m_pTarget->getTransform()->position.y};
+	if(ImGui::SliderFloat2("Target Position", goal_position, 0.0f, 800.0f))
 	{
-		m_pTarget->getTransform()->position = glm::vec2(position[0], position[1]);
-		m_pSpaceShip->setTargetPosition(m_pTarget->getTransform()->position);
+		m_pTarget->getTransform()->position = glm::vec2(goal_position[0], goal_position[1]);
+		
 	}
 
-	static float obstacle[2] = { m_pObstacle->getTransform()->position.x, m_pObstacle->getTransform()->position.y };
-	if (ImGui::SliderFloat2("Obstacle Position", obstacle, 0.0f, 800.0f))
-	{
-		m_pObstacle->getTransform()->position = glm::vec2(obstacle[0], obstacle[1]);
-	}
 
-	ImGui::Separator();
 
-	// spaceship properties
-
-	static float ship[2] = { m_pSpaceShip->getTransform()->position.x, m_pSpaceShip->getTransform()->position.y };
-	if (ImGui::SliderFloat2("Ship Position", ship, 0.0f, 800.0f))
-	{
-		m_pSpaceShip->getTransform()->position = glm::vec2(ship[0], ship[1]);
-	}
-
-	static float ship_angle = Util::angle360(m_pSpaceShip->getCurrentHeading() + 90);
-	if (ImGui::SliderFloat("Ship Angle", &ship_angle, 0.0f, 360.0f))
-	{
-		m_pSpaceShip->setCurrentHeading(ship_angle - 90);
-	}
-
-	static float speed = m_pSpaceShip->getMaxSpeed();
-	if(ImGui::SliderFloat("Max Speed", &speed, 0.0f, 100.0f))
-	{
-		m_pSpaceShip->setMaxSpeed(speed);
-	}
-
-	static float acceleration = m_pSpaceShip->getAccelerationRate();
-	if (ImGui::SliderFloat("Acceleration Rate", &acceleration, 0.0f, 50.0f))
-	{
-		m_pSpaceShip->setAccelerationRate(acceleration);
-		m_pSpaceShip->getRigidBody()->acceleration = m_pSpaceShip->getCurrentDirection() * m_pSpaceShip->getAccelerationRate();
-	}
-
-	static float turn_rate = m_pSpaceShip->getTurnRate();
-	if (ImGui::SliderFloat("Turn Rate", &turn_rate, 0.0f, 20.0f))
-	{
-		m_pSpaceShip->setTurnRate(turn_rate);
-	}
-
-	static float whisker_angle = m_pSpaceShip->getWhiskerAngle();
-	if (ImGui::SliderFloat("Whisker Angle", &whisker_angle, 10.0f, 60.0f))
-	{
-		m_pSpaceShip->updateWhiskers(whisker_angle);
-	}
-
-	if(ImGui::Button("Reset"))
-	{
-		// reset ship's position
-		m_pSpaceShip->getTransform()->position = glm::vec2(100.0f, 400.0f);
-		// reset target's position
-		m_pTarget->getTransform()->position = glm::vec2(500.0f, 100.0f);
-
-		// reset current heading (orientation), velocity and acceleration
-		m_pSpaceShip->setCurrentHeading(0.0);
-		m_pSpaceShip->getRigidBody()->velocity = glm::vec2(0, 0);
-		m_pSpaceShip->getRigidBody()->acceleration = m_pSpaceShip->getCurrentDirection() * m_pSpaceShip->getAccelerationRate();
-
-		m_pSpaceShip->setTargetPosition(m_pTarget->getTransform()->position);
-	}
-	
 	ImGui::End();
-}
 
-void PlayScene::doWhiskerCollision()
-{
-	SDL_Rect box = { (int)m_pObstacle->getTransform()->position.x - m_pObstacle->getWidth() * 0.5f,
-		(int)m_pObstacle->getTransform()->position.y - m_pObstacle->getHeight() * 0.5f,
-		(int)m_pObstacle->getWidth(), (int)m_pObstacle->getHeight() };
-
-	SDL_Point ship_origin = { (int)m_pSpaceShip->getTransform()->position.x, (int)m_pSpaceShip->getTransform()->position.y };
-	// End points for whiskers:
-	SDL_Point left = { (int)m_pSpaceShip->getLeftLOSEndPoint().x, (int)m_pSpaceShip->getLeftLOSEndPoint().y };
-	SDL_Point middle = { (int)m_pSpaceShip->getMiddleLOSEndPoint().x, (int)m_pSpaceShip->getMiddleLOSEndPoint().y };
-	SDL_Point right = { (int)m_pSpaceShip->getRightLOSEndPoint().x, (int)m_pSpaceShip->getRightLOSEndPoint().y };
-
-	bool collisions[3] = { 0,0,0 }; // Refactoring: use getCollisionWhiskers from SpaceShip.
-
-	SDL_Point ship = ship_origin; // Something really annoying in the SDL method is that the lines get clipped, so we need to reset the lines.
-	collisions[0] = SDL_IntersectRectAndLine(&box, &ship.x, &ship.y, &left.x, &left.y);
-	ship = ship_origin;
-	collisions[1] = SDL_IntersectRectAndLine(&box, &ship.x, &ship.y, &middle.x, &middle.y);
-	ship = ship_origin;
-	collisions[2] = SDL_IntersectRectAndLine(&box, &ship.x, &ship.y, &right.x, &right.y);
-
-	for (unsigned int i = 0; i < 3; i++)
-	{
-		m_pSpaceShip->getCollisionWhiskers()[i] = collisions[i];
-		m_pSpaceShip->setLineColor(i, (collisions[i] ? glm::vec4(1, 0, 0, 1) : glm::vec4(0, 1, 0, 1)));
-	}
 }

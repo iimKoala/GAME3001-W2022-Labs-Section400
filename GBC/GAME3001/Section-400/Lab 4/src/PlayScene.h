@@ -3,7 +3,6 @@
 #define __PLAY_SCENE__
 
 #include "Scene.h"
-#include "Obstacle.h"
 #include "Target.h"
 #include "SpaceShip.h"
 
@@ -29,7 +28,7 @@ private:
 	// Game Objects
 	Target* m_pTarget;
 	SpaceShip* m_pSpaceShip;
-	Obstacle* m_pObstacle;
+
 
 	// Debug bool
 	bool m_bDebugView;
