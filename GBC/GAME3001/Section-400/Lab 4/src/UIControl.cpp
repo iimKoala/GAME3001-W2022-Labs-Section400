@@ -66,6 +66,8 @@ void UIControl::onMouseOut()
 	}
 }
 
+
+
 void UIControl::onLeftMouseButtonClick()
 {
 	if (EventManager::Instance().getMouseButton(LEFT))
@@ -75,12 +77,14 @@ void UIControl::onLeftMouseButtonClick()
 			m_leftMouseButtonClicked = true;
 			m_events[CLICK](); // call click event
 		}
+
 	}
 	else
 	{
 		m_leftMouseButtonClicked = false;
 	}
 }
+
 
 bool UIControl::m_eventExists(Event id)
 {

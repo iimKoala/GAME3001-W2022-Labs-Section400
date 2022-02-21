@@ -38,6 +38,8 @@ void GameObject::setWidth(const int new_width)
 	m_width = new_width;
 }
 
+
+
 void GameObject::setHeight(const int new_height)
 {
 	m_height = new_height;

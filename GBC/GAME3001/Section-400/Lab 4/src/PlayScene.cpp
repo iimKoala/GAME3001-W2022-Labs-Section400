@@ -56,6 +56,8 @@ void PlayScene::handleEvents()
 
 void PlayScene::start()
 {
+
+
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
 
@@ -105,8 +107,17 @@ void PlayScene::m_buildGrid()
 		}
 	}
 
+
+
+
+
+
 	// setup the neighbour references for each tile in the grid
 	// tiles = nodes in our graph
+
+
+
+
 	for (int row = 0; row < Config::ROW_NUM; ++row)
 	{
 		for (int col = 0; col < Config::COL_NUM; ++col)
@@ -215,6 +226,7 @@ Tile* PlayScene::m_getTile(const glm::vec2 grid_position)
 
 void PlayScene::GUI_Function()
 {
+
 	auto offset = glm::vec2(Config::TILE_SIZE * 0.5f, Config::TILE_SIZE * 0.5f);
 
 	// Always open with a NewFrame
