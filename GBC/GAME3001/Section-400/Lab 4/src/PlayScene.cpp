@@ -70,12 +70,15 @@ void PlayScene::start()
 	m_pTarget->getTransform()->position = m_getTile(15, 11)->getTransform()->position + offset;
 	m_pTarget->setGridPosition(15.0f, 11.0f);
 	m_getTile(15, 11)->setTileStatus(GOAL);
+
 	addChild(m_pTarget);
 
 	m_pSpaceShip = new SpaceShip();
 	m_pSpaceShip->getTransform()->position = m_getTile(1, 3)->getTransform()->position + offset;
 	m_pSpaceShip->setGridPosition(1.0f, 3.0f);
+
 	m_getTile(1, 3)->setTileStatus(START);
+
 	addChild(m_pSpaceShip);
 
 	// preload sounds
