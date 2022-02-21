@@ -325,6 +325,7 @@ void PlayScene::GUI_Function()
 		m_pTarget->setGridPosition(goal_position[0], goal_position[1]);
 		m_getTile(m_pTarget->getGridPosition())->setTileStatus(GOAL);
 		m_computeTileCosts();
+		m_computeTileCosts();
 	}
 	
 	ImGui::End();
