@@ -60,9 +60,11 @@ void PlayScene::start()
 {
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
-	m_bDebugView = false;
+
 
 	m_buildGrid();
+
+	auto offset = glm::vec2(Config::TILE_SIZE * 0.5f, Config::TILE_SIZE * 0.5f);
 
 	m_pTarget = new Target(); // instantiating a new Target object - allocating memory on the Heap
 	addChild(m_pTarget);
@@ -92,16 +94,18 @@ const auto tile_size = Config::TILE_SIZE;
 	{
 		for (int col = 0; col < Config::COL_NUM; ++col)
 		{
-			
+
+			Tile*tile = new Tile();
+	        tile->getTransform()->position = glm::vec2(col * tile_size, tile_size * row);
+			tile -> setGridPosition(col, row);
+		    tile->setParent(this);
+		    tile->addLabels();
+	        addChild(tile);
+		    tile->setEnabled(false);
+			m_pGrid.push_back(tile);
+
+
 		}
-
-		Tile*tile = new Tile();
-	    tile->getTransform()->position = glm::vec2(400.0f, 300.0f);
-		tile->setParent(this);
-		tile->addLabels();
-	    addChild(tile);
-		tile->setLabelsEnabled(true);
-
 	}
 }
 
@@ -138,6 +142,8 @@ Tile* PlayScene::m_getTile(glm::vec2 grid_position)
 
 void PlayScene::GUI_Function()
 {
+
+	auto offset = glm::vec2(Config::TILE_SIZE * 0.5f, Config::TILE_SIZE * 0.5f);
 	// Always open with a NewFrame
 	ImGui::NewFrame();
 
@@ -154,10 +160,11 @@ void PlayScene::GUI_Function()
 		m_pSpaceShip->setEnabled(toggleSeek);
 	}
 
-	static bool toggleDebug = false;
-	if (ImGui::Checkbox("Toggle Debug", &toggleDebug))
+	static bool toggleGrid = false;
+	if (ImGui::Checkbox("Toggle Grid", &toggleGrid))
 	{
-		m_bDebugView = toggleDebug;
+		m_isGridEnabled = toggleGrid;
+		m_setGridEnabled(m_isGridEnabled);
 	}
 	
 	ImGui::Separator();
