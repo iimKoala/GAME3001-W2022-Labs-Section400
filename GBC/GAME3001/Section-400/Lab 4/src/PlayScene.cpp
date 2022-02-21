@@ -73,6 +73,8 @@ void PlayScene::start()
 
 	addChild(m_pTarget);
 
+
+
 	m_pSpaceShip = new SpaceShip();
 	m_pSpaceShip->getTransform()->position = m_getTile(1, 3)->getTransform()->position + offset;
 	m_pSpaceShip->setGridPosition(1.0f, 3.0f);
@@ -87,11 +89,16 @@ void PlayScene::start()
 
 	m_computeTileCosts();
 
+
+
+
 	ImGuiWindowFrame::Instance().setGUIFunction(std::bind(&PlayScene::GUI_Function, this));
 }
 
 void PlayScene::m_buildGrid()
 {
+
+
 	const auto tile_size = Config::TILE_SIZE;
 
 	// lay out a grid of tiles
@@ -134,6 +141,8 @@ void PlayScene::m_buildGrid()
 			}
 			else
 			{
+
+
 				tile->setNeighbourTile(TOP_TILE, m_getTile(col, row - 1));
 			}
 
@@ -150,6 +159,8 @@ void PlayScene::m_buildGrid()
 			// BottomMost Neighbour
 			if (row == Config::ROW_NUM - 1)
 			{
+
+
 				tile->setNeighbourTile(BOTTOM_TILE, nullptr);
 			}
 			else
