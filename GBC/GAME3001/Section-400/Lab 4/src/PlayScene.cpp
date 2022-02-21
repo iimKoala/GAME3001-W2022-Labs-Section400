@@ -7,6 +7,7 @@
 #include "imgui_sdl.h"
 #include "Renderer.h"
 #include "Util.h"
+#include "Config.h"
 
 PlayScene::PlayScene()
 {
@@ -61,18 +62,20 @@ void PlayScene::start()
 	m_guiTitle = "Play Scene";
 	m_bDebugView = false;
 
+	m_buildGrid();
+
 	m_pTarget = new Target(); // instantiating a new Target object - allocating memory on the Heap
 	addChild(m_pTarget);
 
 	m_pSpaceShip = new SpaceShip();
 	addChild(m_pSpaceShip);
 
-	m_pTile = new Tile();
+	/*m_pTile = new Tile();
 	m_pTile->getTransform()->position = glm::vec2(400.0f, 300.0f);
 	m_pTile->setParent(this);
 	m_pTile->addLabels();
 	addChild(m_pTile);
-	m_pTile->setLabelsEnabled(true);
+	m_pTile->setLabelsEnabled(true);*/
 	
 
 	SoundManager::Instance().load("../Assets/audio/yay.ogg", "yay", SOUND_SFX);
@@ -80,6 +83,58 @@ void PlayScene::start()
 
 	ImGuiWindowFrame::Instance().setGUIFunction(std::bind(&PlayScene::GUI_Function, this));
 }
+
+void PlayScene::m_buildGrid()
+{
+const auto tile_size = Config::TILE_SIZE;
+
+	for (int row = 0; row < Config::ROW_NUM; ++row)
+	{
+		for (int col = 0; col < Config::COL_NUM; ++col)
+		{
+			
+		}
+
+		Tile*tile = new Tile();
+	    tile->getTransform()->position = glm::vec2(400.0f, 300.0f);
+		tile->setParent(this);
+		tile->addLabels();
+	    addChild(tile);
+		tile->setLabelsEnabled(true);
+
+	}
+}
+
+bool PlayScene::m_getGridEnabled() const
+{
+   return m_isGridEnabled;
+}
+
+void PlayScene::m_setGridEnabled(const bool state) 
+{
+	m_isGridEnabled = state;
+
+	for (auto tile : m_pGrid)
+	{
+		tile->setEnabled(m_isGridEnabled);
+		tile->setLabelsEnabled(m_isGridEnabled);
+	}
+}
+
+
+Tile* PlayScene::m_getTile(int col, int row)
+{
+	return m_pGrid[(row * Config::COL_NUM) + col];
+}
+
+Tile* PlayScene::m_getTile(glm::vec2 grid_position)
+{
+	const auto col = grid_position.x;
+	const auto row = grid_position.y;
+
+	return m_getTile(col, row);
+}
+
 
 void PlayScene::GUI_Function()
 {
@@ -129,3 +184,5 @@ static float start_position[2] = { m_pSpaceShip->getTransform()->position.x, m_p
 	ImGui::End();
 
 }
+
+
