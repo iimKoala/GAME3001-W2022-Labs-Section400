@@ -67,11 +67,18 @@ void PlayScene::start()
 	m_currentHeuristic = MANHATTAN;
 
 	m_pTarget = new Target();
+
+
 	m_pTarget->getTransform()->position = m_getTile(15, 11)->getTransform()->position + offset;
 	m_pTarget->setGridPosition(15.0f, 11.0f);
 	m_getTile(15, 11)->setTileStatus(GOAL);
 
+
+
+
 	addChild(m_pTarget);
+
+
 
 
 
@@ -81,7 +88,11 @@ void PlayScene::start()
 
 	m_getTile(1, 3)->setTileStatus(START);
 
+
+
 	addChild(m_pSpaceShip);
+
+
 
 	// preload sounds
 	SoundManager::Instance().load("../Assets/audio/yay.ogg", "yay", SOUND_SFX);
@@ -97,7 +108,7 @@ void PlayScene::start()
 
 void PlayScene::m_buildGrid()
 {
-
+	  
 
 	const auto tile_size = Config::TILE_SIZE;
 
