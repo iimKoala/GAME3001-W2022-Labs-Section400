@@ -311,34 +311,6 @@ float Util::signedAngle(const glm::vec2 from, const glm::vec2 to)
 	return unsigned_angle * sign;
 }
 
-float Util::angleToTarget(float dy, float dx)
-{
-	return (float)atan2(dy, dx); // In radians.
-}
-
-float Util::degreesToTarget(float dy, float dx)
-{
-	return (float)(atan2(dy, dx) * Rad2Deg) - 90; // In radians.
-}
-
-float Util::angle180(float a)
-{
-	// Constrains an angle between -180 and 180.
-	a = fmod(a + 180.0, 360.0);
-	if (a < 0)
-		a += 360.0;
-	return a - 180.0;
-}
-
-float Util::angle360(float a)
-{
-	// Constrains an angle between 0 and 360.
-	a = fmod(a, 360.0);
-	if (a < 0)
-		a += 360.0;
-	return a;
-}
-
 glm::vec2 Util::rotatePoint(glm::vec2 point, const float angle, const glm::vec2 pivot)
 {
 	const float s = sin(angle * Deg2Rad);
@@ -400,16 +372,9 @@ void Util::DrawFilledRect(const glm::vec2 position, const int width, const int h
 	rectangle.y = position.y;
 	rectangle.w = width;
 	rectangle.h = height;
-
-	/* Declaring the surface. */
-	SDL_Surface* surface;
-
-	/* Creating the surface. */
-	surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
 		
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
-	SDL_FillRect(surface, nullptr, SDL_MapRGB(surface->format, r, g, b));
-	SDL_RenderDrawRect(renderer, &rectangle);
+	SDL_RenderFillRect(renderer, &rectangle);
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 }
 

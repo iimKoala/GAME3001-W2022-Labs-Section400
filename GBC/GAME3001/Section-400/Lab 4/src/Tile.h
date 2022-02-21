@@ -6,41 +6,43 @@
 #include "TileStatus.h"
 #include "Label.h"
 #include "NeighbourTile.h"
+
 class Tile: public NavigationObject
 {
 public:
+	// Constructor
 	Tile();
-
-
+	
+	// Destructor
 	~Tile();
-
-
+	
+	// Life-Cycle Functions
 	void draw() override;
 	void update() override;
 	void clean() override;
-
-
-	Tile* getNeighbpourTile(NeighbourTile position);
+	
+	// Getters (Accessors) and Setters (Mutators)
+	Tile* getNeighbourTile(NeighbourTile position);
 	void setNeighbourTile(NeighbourTile position, Tile* tile);
 
-	float getTIleCost() const;
+	float getTileCost() const;
 	void setTileCost(float cost);
-	TileStatus getTileStatus(TileStatus status);
 
 	TileStatus getTileStatus() const;
-	void setTileStatus(const TileStatus status);
+	void setTileStatus(TileStatus status);
 
 	void addLabels();
 	void setLabelsEnabled(bool state);
 
 private:
-
+	// private instance members
 	float m_cost;
-	TileStatus m_status;
+	TileStatus  m_status;
 
 	Label* m_costLabel;
 	Label* m_statusLabel;
 
 	Tile* m_neighbours[NUM_OF_NEIGHBOUR_TILES];
 };
-#endif /* defined (__TILE__)  */
+
+#endif /* defined (__TILE__) */

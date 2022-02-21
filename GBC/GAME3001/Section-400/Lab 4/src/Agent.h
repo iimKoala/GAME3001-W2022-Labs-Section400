@@ -16,7 +16,7 @@ public:
 	void update() override = 0;
 	void clean() override = 0;
 
-	// getters
+	// getters (accessors)
 	glm::vec2 getTargetPosition() const;
 	glm::vec2 getCurrentDirection() const;
 	float getLOSDistance() const;
@@ -27,11 +27,11 @@ public:
 	glm::vec2 getLeftLOSEndPoint() const;
 	glm::vec2 getMiddleLOSEndPoint() const;
 	glm::vec2 getRightLOSEndPoint() const;
-	bool* getCollisionWhiskers(); // Returns entire array.
-	glm::vec4 getLineColor(int index);
+	bool* getCollisionWhiskers(); // returns the entire array
+	glm::vec4 getLineColour(int index);
 	float getWhiskerAngle() const;
 
-	// setters
+	// setters (mutators)
 	void setTargetPosition(glm::vec2 new_position);
 	void setCurrentDirection(glm::vec2 new_direction);
 	void setLOSDistance(float distance);
@@ -42,9 +42,11 @@ public:
 	void setLeftLOSEndPoint(glm::vec2 point);
 	void setMiddleLOSEndPoint(glm::vec2 point);
 	void setRightLOSEndPoint(glm::vec2 point);
-	void setLineColor(int index, glm::vec4 color);
-	void setWhiskerAngle(float a);
-	void updateWhiskers(float a);
+	void setLineColour(int index, glm::vec4 colour);
+	void setWhiskerAngle(float angle);
+
+	// public functions
+	void updateWhiskers(float angle);
 
 private:
 	void m_changeDirection();
@@ -57,16 +59,15 @@ private:
 	bool m_hasLOS;
 	glm::vec4 m_LOSColour;
 
+	// Whiskers
 	glm::vec2 m_leftLOSEndPoint;
 	glm::vec2 m_middleLOSEndPoint;
 	glm::vec2 m_rightLOSEndPoint;
-	// Add second left whisker.
-	// Add second right whisker.
-	glm::vec4 m_lineColor[3]; // Change to 5 when you add the two extra whiskers.
-	bool m_collisionWhiskers[3]; // ""
+	glm::vec4 m_lineColour[3]; // you will need to change this to 5 to support your whiskers
+	bool m_collisionWhiskers[3]; // change to 5 - keeps track of each Whisker colliding
 
-	float m_whiskerAngle;
-	// May want second whiskerAngle for ImGUI - optional
+	float m_whiskerAngle; // angle of the left and right whiskers relative to the heading
+	
 };
 
 
