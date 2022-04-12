@@ -12,5 +12,9 @@ AttackAction::~AttackAction()
 
 void AttackAction::Action()
 {
+	if (getAgent()->getActionState() != ATTACK)
+	{
 		std::cout << "Performing " << m_name << std::endl;
+	}
+	getAgent()->Attack();
 }

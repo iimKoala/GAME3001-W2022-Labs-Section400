@@ -27,7 +27,17 @@ void PlayScene::draw()
 void PlayScene::update()
 {
 	updateDisplayList();
-	m_checkAgentLOS(m_pSpaceShip, m_pTarget);
+	
+	// Set agent tree conditions here. Eventually replace parameters with distance checks.
+	// m_pSpaceShip->getTree()->getRadiusNode()->setIsWithinRadius(false);
+
+	// m_pSpaceShip->getTree()->getCloseCombatNode()->setIsWithinCombatRange(false);
+		// or for ranged combat enemy...
+	// m_pSpaceShip->getTree()->getRangedCombatNode()->setIsWithinCombatRange(false);
+
+	m_pSpaceShip->getTree()->getLOSNode()
+		->setLOS(m_pSpaceShip->checkAgentLOSToTarget(m_pSpaceShip, m_pTarget, m_pObstacles));
+	
 	// Now for the path_nodes LOS
 	switch (m_LOSMode)
 	{
@@ -98,7 +108,8 @@ void PlayScene::start()
 	}
 	inFile.close();
 
-	m_pSpaceShip = new SpaceShip();
+	m_pSpaceShip = new CloseCombatEnemy();
+	//m_pSpaceShip = new RangedCombatEnemy();
 	m_pSpaceShip->getTransform()->position = glm::vec2(400.f, 40.f);
 	addChild(m_pSpaceShip, 4);
 
@@ -112,18 +123,17 @@ void PlayScene::start()
 	m_isGridEnabled = false;
 	m_buildGrid();
 	m_toggleGrid(m_isGridEnabled);
-
-	// Create decision tree
-	//m_decisionTree = new DecisionTree(m_pSpaceShip); // using our Overloaded Constructor
-	//m_decisionTree->Display(); // optional
-	//m_decisionTree->MakeDecision();
 	
 	SoundManager::Instance().load("../Assets/audio/yay.ogg", "yay", SOUND_SFX);
 	SoundManager::Instance().load("../Assets/audio/thunder.ogg", "boom", SOUND_SFX);
 
-	SoundManager::Instance().load("../Assets/audio/mutara.mp3", "mutara", SOUND_MUSIC);
+	/*SoundManager::Instance().load("../Assets/audio/mutara.mp3", "mutara", SOUND_MUSIC);
+	SoundManager::Instance().playMusic("mutara");*/
+	
+	SoundManager::Instance().load("../Assets/audio/klingon.mp3", "klingon", SOUND_MUSIC);
+	SoundManager::Instance().playMusic("klingon");
 	SoundManager::Instance().setMusicVolume(16);
-	SoundManager::Instance().playMusic("mutara");
+
 
 	ImGuiWindowFrame::Instance().setGUIFunction(std::bind(&PlayScene::GUI_Function, this));
 }
