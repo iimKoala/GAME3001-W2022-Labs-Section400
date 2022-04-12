@@ -27,7 +27,19 @@ void PlayScene::draw()
 void PlayScene::update()
 {
 	updateDisplayList();
-	
+
+	// ranged combat enemy
+	m_pSpaceShip->getTree()->getEnemyHealthNode()->setHealth(m_pTarget->getHealth() > 25);
+	m_pSpaceShip->getTree()->getEnemyHitNode()->setIsHit(false); // this would be different for A4
+	m_pSpaceShip->checkAgentLOSToTarget(m_pSpaceShip, m_pTarget, m_pObstacles);
+
+	float distance = Util::distance(m_pSpaceShip->getTransform()->position, m_pTarget->getTransform()->position);
+	bool isDetected = distance < 450; // Radius detection...just outside of LOS Range
+
+	m_pSpaceShip->getTree()->getPlayerDetectedNode()->setDetected(isDetected);
+
+	bool inRange = distance >= 200 && distance <= 350; // Under LOS distance and not too close (optimum firing range)
+	m_pSpaceShip->getTree()->getRangedCombatNode()->setIsWithinCombatRange(inRange);
 		
 	// Now for the path_nodes LOS
 	switch (m_LOSMode)
@@ -78,6 +90,21 @@ void PlayScene::handleEvents()
 		SoundManager::Instance().playSound("torpedo"); // play the torpedo sound
 		addChild(m_pTorpedoes.back(), 2); // add torpedo to the scene
 	}
+
+	if (EventManager::Instance().keyPressed(SDL_SCANCODE_D))
+	{
+		m_pTarget->takeDamage(25); // or m_pTarget->setHealth(m_pTarget->getHealth() - 25);
+		std::cout << "Target at:" << m_pTarget->getHealth() << "%." << std::endl;
+	}
+
+	if (EventManager::Instance().keyPressed(SDL_SCANCODE_R))
+	{
+		m_pTarget->setHealth(100);
+		m_pSpaceShip->getTree()->getEnemyHitNode()->setIsHit(false);
+		m_pSpaceShip->getTree()->getPlayerDetectedNode()->setDetected(false);
+		
+		std::cout << "Target condition has been reset" << std::endl;
+	}
 }
 
 void PlayScene::start()
@@ -108,8 +135,8 @@ void PlayScene::start()
 	}
 	inFile.close();
 
-	m_pSpaceShip = new CloseCombatEnemy();
-	//m_pSpaceShip = new RangedCombatEnemy();
+	//m_pSpaceShip = new CloseCombatEnemy();
+	m_pSpaceShip = new RangedCombatEnemy();
 	m_pSpaceShip->getTransform()->position = glm::vec2(400.f, 40.f);
 	addChild(m_pSpaceShip, 4);
 
