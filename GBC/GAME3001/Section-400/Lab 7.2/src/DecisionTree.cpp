@@ -42,6 +42,26 @@ CloseCombatCondition* DecisionTree::getCloseCombatNode() const
 	return m_CloseCombatNode;
 }
 
+std::vector<TreeNode*>& DecisionTree::getTree()
+{
+	return m_treeNodeList;
+}
+
+void DecisionTree::setLOSNode(LOSCondition* node)
+{
+	m_LOSNode = node;
+}
+
+void DecisionTree::setRadiusNode(RadiusCondition* node)
+{
+	m_RadiusNode = node;
+}
+
+void DecisionTree::setCloseCombatNode(CloseCombatCondition* node)
+{
+	m_CloseCombatNode = node;
+}
+
 void DecisionTree::setAgent(Agent* agent)
 {
 	m_agent = agent;
@@ -99,8 +119,6 @@ void DecisionTree::MakeDecision()
 		currentNode = dynamic_cast<ConditionNode*>(currentNode)->Condition() ?
 			(currentNode->m_pRight) :
 			(currentNode->m_pLeft);
-
-		
 	}
 	dynamic_cast<ActionNode*>(currentNode)->Action();
 }

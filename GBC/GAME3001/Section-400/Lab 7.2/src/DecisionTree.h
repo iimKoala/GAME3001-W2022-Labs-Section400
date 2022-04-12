@@ -24,8 +24,14 @@ public:
 	LOSCondition* getLOSNode() const;
 	RadiusCondition* getRadiusNode() const;
 	CloseCombatCondition* getCloseCombatNode() const;
+	//RangedCombatCondition* getRangedCombatNode() const;
+	std::vector<TreeNode*>& getTree();
 
 	void setAgent(Agent* agent);
+	void setLOSNode(LOSCondition* node);
+	void setRadiusNode(RadiusCondition* node);
+	void setCloseCombatNode(CloseCombatCondition* node);
+	//void setRangedCombatNode(RangedCombatCondition* node);
 
 	// Public Utility / Convenience Functions
 	TreeNode* AddNode(TreeNode* parent, TreeNode* child_node, TreeNodeType type);
@@ -44,10 +50,6 @@ private:
 
 	// TreeNode List
 	std::vector<TreeNode*> m_treeNodeList;
-
-	// Private Methods
-	//void m_buildTree();
-	
 };
 
 #endif /* defined (__DECISION_TREE__) */
