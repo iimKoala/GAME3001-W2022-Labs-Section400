@@ -34,6 +34,21 @@
     <Filter Include="Data">
       <UniqueIdentifier>{cdfa3fcd-3323-4bff-b92f-9c6e232b80f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Decision">
+      <UniqueIdentifier>{c066054f-3c5e-4dde-992c-1f4e756f3859}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Decision\Actions">
+      <UniqueIdentifier>{d824f94b-ea41-4702-b71c-3d6101f4eef8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Decision\Agents">
+      <UniqueIdentifier>{149f4edf-baf2-4110-848a-e0a8b93c9630}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Decision\Conditions">
+      <UniqueIdentifier>{7cc444d7-052b-4056-aad4-12a78ef6b4ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Decision\Core">
+      <UniqueIdentifier>{2f5ba8a6-85d7-410c-b54d-9809af3b59ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\StartScene.cpp">
@@ -147,11 +162,11 @@
     <ClCompile Include="..\src\Background.cpp">
       <Filter>Game Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Agent.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\SpaceShip.cpp">
-      <Filter>Game Objects</Filter>
+      <Filter>Decision\Agents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Agent.cpp">
+      <Filter>Decision\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -320,11 +335,20 @@
     <ClInclude Include="..\src\ActionState.h">
       <Filter>Enums</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Agent.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\SpaceShip.h">
-      <Filter>Game Objects</Filter>
+      <Filter>Decision\Agents</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Agent.h">
+      <Filter>Decision\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ActionNode.h">
+      <Filter>Decision\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ConditionNode.h">
+      <Filter>Decision\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TreeNode.h">
+      <Filter>Decision\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
