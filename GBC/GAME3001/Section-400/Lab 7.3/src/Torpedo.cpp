@@ -4,8 +4,8 @@
 Torpedo::Torpedo(float speed): m_currentAnimationState(FIRED),m_speed(speed)
 {
 	TextureManager::Instance().loadSpriteSheet(
-		"../Assets/sprites/torpedo.txt",
-		"../Assets/sprites/torpedo.png", 
+		"../Assets/sprites/torpedo.txt", // data file
+		"../Assets/sprites/torpedo.png",  // texture atlas (spritesheet)
 		"torpedosheet");
 
 	setSpriteSheet(TextureManager::Instance().getSpriteSheet("torpedosheet"));
