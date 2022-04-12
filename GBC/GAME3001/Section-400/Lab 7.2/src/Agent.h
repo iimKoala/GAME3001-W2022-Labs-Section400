@@ -5,6 +5,8 @@
 #include <glm/vec4.hpp>
 #include "NavigationObject.h"
 #include "ActionState.h"
+#include "EventManager.h"
+#include "Obstacle.h"
 
 class Agent : public NavigationObject
 {
@@ -50,6 +52,12 @@ public:
 	void updateWhiskers(float a);
 
 	void setActionState(ActionState a) { m_state = a; }
+	// New Tree Actions -- will be overridden by derived Agents (e.g. CloseCombatEnemy and the RangedCombatEnemy)
+	virtual void Attack() {}
+	virtual void MoveToLOS() {}
+	virtual void MoveToPlayer() {}
+	virtual void MoveToRange() {}
+	virtual void Patrol() {}
 
 private:
 	void m_changeDirection();
