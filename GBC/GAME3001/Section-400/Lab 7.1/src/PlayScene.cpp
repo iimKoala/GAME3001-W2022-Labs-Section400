@@ -42,7 +42,7 @@ void PlayScene::update()
 		break;
 	}
 	// Make decision
-
+	m_decisionTree->MakeDecision();
 }
 
 void PlayScene::clean()
@@ -114,8 +114,10 @@ void PlayScene::start()
 	m_toggleGrid(m_isGridEnabled);
 
 	// Create decision tree
+	m_decisionTree = new DecisionTree(m_pSpaceShip); // using our Overloaded Constructor
+	m_decisionTree->Display(); // optional
+	m_decisionTree->MakeDecision();
 	
-
 	SoundManager::Instance().load("../Assets/audio/yay.ogg", "yay", SOUND_SFX);
 	SoundManager::Instance().load("../Assets/audio/thunder.ogg", "boom", SOUND_SFX);
 
